@@ -1,11 +1,11 @@
 # MIPS Programming Project 1
-.data # This is the section to declare variables that will be used in the program
-x: .asciiz # The variable of the student ID is declared and the value representation is ASCII
+	.data # This is the section to declare variables that will be used in the program
+	x: .space 8 # The space for the id is initialized (an id only has 8 characters)
 
-.text # This is the section where the instructions will be written
-main: # High Level Approach
-	# Identify the ASCII value and relate it to the base 30 value
-	# If the char value is in Base N continue to add the Base N value to the output
-	# Else jump past the add to output instruction
-	# Keep completing the same instructions until the end of the id is reached 
-	# Output the sum of the viable character values
+	.text # This is the section where the instructions will be written
+main:
+	li	$v0, 8	# load value of 8 so syscall knows that it will be reading from and story the input
+	la	$a0, x	# Loads the address of the id input to $a0 register
+	li	$a1, 8	# Loads the amount of space that is allocated for the input
+	syscall	# Keep completing the same instructions until the end of the id is reached 
+# Error: Attempt to execute non-instruction at 0x00400034
