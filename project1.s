@@ -8,8 +8,12 @@ main:
 	la	$a0, x	# Loads the address of the id input to $a0 register
 	li	$a1, 9	# Loads the amount of space that is allocated for the input 
 	syscall	# Keep completing the same instructions until the end of the id is reached 
+	
+	add	$t0, $zero, $zero	# Temporarily hold a test value that will eventually represent sum	
+	lb	$t1, 0($a0)		# Loads the ASCII value of the first character
+	addi	$t1, $t1, -87		# Adjusts the value of a lower case letter
+	add	$t0, $t0, $t1		# Adds the character value to the sum
 
-	addi	$t0, $zero, 3	# Temporarily hold a test value that will eventually represent sum
 	sw	$t0, 8($a0)	# Store the sum in memory right after the id string
 	li	$v0, 1		# Loads value that tells syscall to print
 	lw	$a0, 8($a0)	# Load the sum from memory so it can be printed
