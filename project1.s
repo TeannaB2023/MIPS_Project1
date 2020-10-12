@@ -9,11 +9,15 @@ main:
 	li	$a1, 9	# Loads the amount of space that is allocated for the input 
 	syscall	# Keep completing the same instructions until the end of the id is reached 
 	
-	add	$t0, $zero, $zero	# Temporarily hold a test value that will eventually represent sum	
+	add	$t0, $zero, $zero	# Temporarily hold a test value that will eventually represent sum
+START:	
 	lb	$t1, 0($a0)		# Loads the ASCII value of the first character
+	addi	$t2, $zero, 97		# Stores starting value of lowercase letters in ASCII
+	blt	$t1, $t2, NOTLOWER	# If the value of the character greater than the LC value it's added to the sum
+LOWER:
 	addi	$t1, $t1, -87		# Adjusts the value of a lower case letter
 	add	$t0, $t0, $t1		# Adds the character value to the sum
-
+NOTLOWER:				# If not the sum is skipped over
 	sw	$t0, 8($a0)	# Store the sum in memory right after the id string
 	li	$v0, 1		# Loads value that tells syscall to print
 	lw	$a0, 8($a0)	# Load the sum from memory so it can be printed
