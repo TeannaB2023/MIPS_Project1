@@ -1,6 +1,6 @@
 # MIPS Programming Project 1
 	.data # This is the section to declare variables that will be used in the program
-	x: .space 11 # The space for the input is initialized (will only read 10 characters)
+	x: .space 11 		# The space for the input is initialized (will only read 10 characters)
 	id: .word 02924893	# Store the value of my personal id
 
 	.text # This is the section where the instructions will be written
@@ -39,15 +39,19 @@ LOWER:
 	addi	$t1, $t1, -87		# Adjusts the value of lower case letter to base N
 	j ADD				# Add the value to sum
 
-NOT:					# If not the sum is skipped over
-	add	$t1, $zero, $zero
+NOT:					
+	add	$t1, $zero, $zero	# If not the sum is skipped over
 
-ADD:
+ADD:	
+	slt	$t2, $t1, $t5		# Checks if the converted value is less than the base number
+	beq	$t2, $zero, INCREMENT	# If the value cannot be represented by the base it's not added to the sum
 	add	$t0, $t0, $t1		# Adds the character value to the sum
+
+INCREMENT:
 	addi	$a0, $a0, 1		# Increment the address by one
-	addi	$t3, $t3, 1		# Increment the loop counter by 1	
-	slti	$t4, $t3, 10		# This will check if current place of the loop is still on the input 
-	bne	$t4, $zero, START	# The program will loop for only 10 iterations
+	addi	$t3, $t3, 1		# Increment the loop counter by 1
+	slti	$t2, $t3, 10		# This will check if current place of the loop is still on the input 
+	bne	$t2, $zero, START	# The program will loop for only 10 iterations
 			
 	sh	$t0, 0($a0)	# Store the sum in memory right after the id string
 	li	$v0, 1		# Loads value that tells syscall to print
@@ -55,4 +59,4 @@ ADD:
 	syscall			# Completes the print instruction
 
 	li	$v0, 10		# Exit program call
-	syscall
+	syscall			# Input: vwXYZ!@#$% Output: 9
