@@ -32,10 +32,14 @@ NUM:
 UPPER:
 	slti	$t2, $t1, 91		# Checks if the value represents an uppercase letter
 	beq	$t2, $zero, LOWER	# If not check to see if it's a lowercase letter
+	slti	$t2, $t1, 65		# Checks the lower bound of the upper case 
+	bne	$t2, $zero, NOT		# If out of range it is not a viable character
 	addi	$t1, $t1, -55		# Adjusts the value of upper case letter to base N
 	j ADD				# Add the value to sum
 
 LOWER:
+	slti	$t2, $t1, 97		# Checks the lower bound of the lower case 
+	bne	$t2, $zero, NOT		# If out of range it is not a viable character
 	addi	$t1, $t1, -87		# Adjusts the value of lower case letter to base N
 	j ADD				# Add the value to sum
 
