@@ -14,8 +14,16 @@ main:
 
 START:	
 	lb	$t1, 0($a0)		# Loads the ASCII value of the first character
-	addi	$t2, $zero, 97		# Stores starting value of lowercase letters in ASCII
-	blt	$t1, $t2, NOT		# If the value of the character greater than the LC value it's added to the sum
+	slti	$t2, $t1, 48		# Evaluates if the ASCII value could be a number or letter
+	bne	$t2, $zero, NOT		# If the value of the character is less than it's not a viable number
+
+NUM:
+	slti	$t2, $t1, 58		# Checks if the value represents a number
+	beq	$t2, $zero, UPPER	# If not check to see if it's an uppercase letter
+
+UPPER:
+	slti	$t2, $t1, 91		# Checks if the value represents an uppercase letter
+	beq	$t2, $zero, LOWER	# If not check to see if it's a lowercase letter
 
 LOWER:
 	addi	$t1, $t1, -87		# Adjusts the value of a lower case letter
