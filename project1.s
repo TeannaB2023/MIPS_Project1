@@ -9,7 +9,6 @@ main:
 	li	$a1, 11	# Loads the amount of space that is allocated for the input 
 	syscall		# Completes the read string instruction
 	
-	add	$t0, $zero, $zero	# Temporarily hold a test value that will eventually represent sum
 	add	$t3, $zero, $zero	# Keeps track of the increments for the loop
 
 START:	
@@ -20,16 +19,24 @@ START:
 NUM:
 	slti	$t2, $t1, 58		# Checks if the value represents a number
 	beq	$t2, $zero, UPPER	# If not check to see if it's an uppercase letter
+	addi	$t1, $t1, -48		# Adjusts the value of number to base N
+	j ADD				# Add the value to sum
 
 UPPER:
 	slti	$t2, $t1, 91		# Checks if the value represents an uppercase letter
 	beq	$t2, $zero, LOWER	# If not check to see if it's a lowercase letter
+	addi	$t1, $t1, -55		# Adjusts the value of upper case letter to base N
+	j ADD				# Add the value to sum
 
 LOWER:
-	addi	$t1, $t1, -87		# Adjusts the value of a lower case letter
-	add	$t0, $t0, $t1		# Adds the character value to the sum
+	addi	$t1, $t1, -87		# Adjusts the value of lower case letter to base N
+	j ADD				# Add the value to sum
 
 NOT:					# If not the sum is skipped over
+	add	$t1, $zero, $zero
+
+ADD:
+	add	$t0, $t0, $t1		# Adds the character value to the sum
 	addi	$a0, $a0, 1		# Increment the address by one
 	addi	$t3, $t3, 1		# Increment the loop counter by 1	
 	slti	$t4, $t3, 10		# This will check if current place of the loop is still on the input 
