@@ -1,6 +1,7 @@
 # MIPS Programming Project 1
 	.data # This is the section to declare variables that will be used in the program
-	x: .space 11 # The space for the id is initialized (an id only has 10 characters)
+	x: .space 11 # The space for the input is initialized (will only read 10 characters)
+	id: .word 02924893	# Store the value of my personal id
 
 	.text # This is the section where the instructions will be written
 main:
@@ -10,6 +11,12 @@ main:
 	syscall		# Completes the read string instruction
 	
 	add	$t3, $zero, $zero	# Keeps track of the increments for the loop
+	la	$a2, id			# Load the address of my id
+	lw	$t5, 0($a2)		# Get the value of the id
+	addi	$t6, $zero, 11		# Initialize the number that will be divide the id
+	div	$t5, $t6		# X % 11
+	mfhi	$t5			# Move the remainder of the division to a register
+	addi	$t5, $t5, 26		# N = (X % 11) + 26
 
 START:	
 	lb	$t1, 0($a0)		# Loads the ASCII value of the first character
